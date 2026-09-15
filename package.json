@@ -1,0 +1,20 @@
+{
+	"name": "fullhouse",
+	"version": "1.0.0",
+	"description": "",
+	"type": "module",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js",
+		"dev": "nodemon src/index.js"
+	},
+	"keywords": [],
+	"author": "Schalk van Dyk",
+	"license": "ISC",
+	"dependencies": {
+		"express": "^5.2.1"
+	},
+	"devDependencies": {
+		"nodemon": "^3.1.14"
+	}
+}
