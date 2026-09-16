@@ -9,6 +9,7 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Set absolute paths
 const viewsPath = path.join(__dirname, "../views");
 const publicPath = path.join(__dirname, "../public");
 
