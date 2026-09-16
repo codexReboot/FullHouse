@@ -6,8 +6,10 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "node index.js",
-		"nodemon": "nodemon src/index.js",
-		"watch:sass": "sass sass/main.scss public/css/style.css -w"
+		"nodemon": "nodemon --watch src --watch public --watch views --ignore public/css/style.css src/index.js",
+		"watch:sass": "sass sass/main.scss public/css/style.css -w",
+		"open": "sleep 3 && xdg-open http://localhost:5000",
+		"dev": "npm-run-all --parallel nodemon watch:sass open"
 	},
 	"keywords": [],
 	"author": "Schalk van Dyk",
@@ -20,6 +22,7 @@
 	},
 	"devDependencies": {
 		"nodemon": "^3.1.14",
+		"npm-run-all": "^4.1.5",
 		"sass": "^1.104.1"
 	}
 }
