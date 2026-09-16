@@ -3,6 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import "dotenv/config";
 import pool from "./config/database.js";
+import session from "express-session";
 
 const app = express();
 
@@ -29,6 +30,20 @@ app.set("view engine", "ejs"); // tells node that "index" is index.ejs
 
 // Serve static files
 app.use(express.static(publicPath));
+// Session config
+app.use(
+	session({
+		secret: "boogiewoogiesecret", // required – used to sign the cookie
+		resave: false, // don’t force save if unmodified
+		saveUninitialized: true, // create a session even if it’s never used
+		cookie: {
+			name: "monstercookie",
+			httpOnly: true,
+			expires: Date.now() + 1000 * 60 * 60 * 3, // cookie lives 3 hours
+			maxAge: 1000 * 60 * 60 * 3,
+		},
+	}),
+);
 
 const PORT = process.env.PORT || 3000;
 
