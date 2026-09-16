@@ -2,8 +2,18 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 import "dotenv/config";
+import pool from "./config/database.js";
 
 const app = express();
+
+// Test database
+try {
+	const [rows] = await pool.query("SELECT DATABASE() AS database_name");
+
+	console.log(`Connected to database: ${rows[0].database_name}`);
+} catch (error) {
+	console.error("Database connection failed:", error);
+}
 
 // Resolve project paths
 const __filename = fileURLToPath(import.meta.url);
@@ -31,5 +41,5 @@ app.get("/", (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-	console.log(`Server running on PORT ${PORT} || 3000`);
+	console.log(`Server running on PORT ${PORT}`);
 });
