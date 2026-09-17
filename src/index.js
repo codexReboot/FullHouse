@@ -4,6 +4,7 @@ import { fileURLToPath } from "url";
 import "dotenv/config";
 import pool from "./config/database.js";
 import session from "express-session";
+import flash from "connect-flash";
 
 const app = express();
 
@@ -30,6 +31,8 @@ app.set("view engine", "ejs"); // tells node that "index" is index.ejs
 
 // Serve static files
 app.use(express.static(publicPath));
+app.use(express.urlencoded({ extended: true }));
+
 // Session config
 app.use(
 	session({
@@ -37,21 +40,38 @@ app.use(
 		resave: false, // don’t force save if unmodified
 		saveUninitialized: true, // create a session even if it’s never used
 		cookie: {
-			name: "monstercookie",
 			httpOnly: true,
 			expires: Date.now() + 1000 * 60 * 60 * 3, // cookie lives 3 hours
 			maxAge: 1000 * 60 * 60 * 3,
 		},
 	}),
 );
+// connect flash
+app.use(flash());
+app.use((req, res, next) => {
+	res.locals.success = req.flash("success");
+	next();
+});
 
 const PORT = process.env.PORT || 3000;
 
 // Root page
 app.get("/", (req, res) => {
 	const projectName = "FullHouse Project";
-
 	res.render("index", { project: projectName });
+});
+
+// Login page
+app.get("/login", (req, res) => {
+	// res.send("Welcome to the Login Page");
+	const pageName = "Login Page";
+	res.render("login", { pageName });
+});
+
+app.post("/login", (req, res) => {
+	console.log(req.body);
+	req.flash("success", "Success! You have logged in.");
+	res.redirect("/");
 });
 
 // Start server
